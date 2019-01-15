@@ -58,3 +58,48 @@ et = curry(lambda a,b: a==b)
 # will pull the property of an object
 prop = curry(lambda prop, x: x[prop])
 
+increment = lambda x: x+1
+decrement = lambda x: x-1
+
+
+Either = curry(lambda direction1, direction2, condition, value: direction1(value) if condition(value) else direction2(value))
+
+class TestClass(object):
+  commonTestCases = ['hello',True,False,3,-1,3.3,-3.3,None,[1,2,3]]
+  def test_curry(self):
+    function = lambda a,b,c:a**3+b**2+c
+    assert curry(function)(3)(2)(1) == 32
+  def test_compose(self):
+    last = lambda x: x[-1]
+    flip = lambda a: [b for b in reversed(a)]
+    composed = compose(last,flip)
+    assert composed(['im','test','data']) == 'im'
+  def test_equal(self):
+    testcases = self.commonTestCases
+    for a in testcases:
+      for b in testcases:
+        assert equal(a,b) == (a==b)
+  def test_idenity(self):
+    testcases = self.commonTestCases
+    for t in testcases:
+      assert idenity(t) == t
+  def test_logicalNot(self):
+    testcases = [True,False]
+    for t in testcases:
+      assert logicalNot(t) == (not t)
+  def test_logicalOr(self):
+    testCase = logicalOr(lambda x:x>0,lambda x:x<0)
+    assert testCase(-1) == True
+    assert testCase(0) == False
+    assert testCase(1) == True
+  def test_str_lower(self):
+    assert str_lower('Y') == 'y'
+    assert str_lower('N') == 'n'
+    assert str_lower('y') == 'y'
+    assert str_lower('n') == 'n'
+  def test_Either(self):
+    testcase = Either(lambda x:x,lambda _:None,lambda x:x.isdigit())
+    assert testcase('abc') == None
+    assert testcase('') == None
+    assert testcase('8') == '8'
+    assert testcase('9') == '9'
