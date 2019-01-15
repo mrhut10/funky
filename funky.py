@@ -26,3 +26,35 @@ def compose (*functions):
       arg = f(arg)
     return arg
   return composed
+
+#function -> [iterable] -> [iterable]
+# will run a function over all elements and return result
+map = lambda f, a: [f(x) for x in a] 
+
+
+# idenity function visit https://en.wikipedia.org/wiki/Identity_function
+# a -> a
+idenity = lambda a : a
+
+
+# a -> b -> bool
+# will return true is a & b are equal
+equal = curry(lambda a, b : a == b)
+
+# fn1 -> fn2 -> a -> bool
+equalfn = curry(lambda fn1,fn2,value: fn1(value)==fn2(value))
+
+logicalNot = lambda a : (not a)
+logicalOr = curry(lambda fn1, fn2, value: fn1(value) or fn2(value))
+logicaland = curry(lambda fn1, fn2, value: all((fn1(value),fn2(value))))
+
+str_lower = lambda value: value.lower()
+
+gt = curry(lambda a,b: b > a)
+lt = curry(lambda a,b: b < a)
+et = curry(lambda a,b: a==b)
+
+# String -> a
+# will pull the property of an object
+prop = curry(lambda prop, x: x[prop])
+
